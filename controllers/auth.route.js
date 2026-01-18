@@ -56,13 +56,13 @@ router.post("/verify", async (req, res) => {
   try {
     const user = await User.findById(userId).select("-password");
 
-    const validOtp = bcrypt.compareSync(otpCode, user.otpCode)
+    const validOtp = bcrypt.compareSync(otpCode, user.otpCode);
 
     if (!validOtp) {
       return res.send("The verification code is wrong");
     }
     user.isVerified = true;
-    user.otpCode = ""
+    user.otpCode = "";
     user.save();
 
     console.log("✅ Email verified successfully");
@@ -82,7 +82,7 @@ router.post("/verify", async (req, res) => {
 // send otp again.
 router.get("/send-again/:userId", async (req, res) => {
   const userId = req.params.userId;
-  console.log("user ID:", userId)
+  console.log("user ID:", userId);
   try {
     const user = await User.findById(userId).select("-password");
     user.otpCode = nanoidOtp();
@@ -157,8 +157,13 @@ router.get("/profile", requireAuth, async (req, res) => {
     console.log("✅ User data fetched successfully", user);
 
     return user.role === "admin"
-      ? res.render("admin/admin-profile.ejs", { username: user.username })
-      : res.render("profile-details.ejs", { username: user.username });
+      ? res.render("admin/admin-profile.ejs", {
+          username: user.username,
+        })
+      : res.render("profile-details.ejs", {
+          username: user.username,
+          email: user.email,
+        });
   } catch (error) {
     console.log("❌ Error to fetch user data:", error);
     res.send("Failed to fetch user data");
@@ -185,7 +190,7 @@ router.put("/edit-username", requireAuth, async (req, res) => {
       { username: username },
       {
         new: true,
-      }
+      },
     ).select("-password");
     console.log("✅ Username updated successfully:", updatedUser);
 
@@ -195,6 +200,37 @@ router.put("/edit-username", requireAuth, async (req, res) => {
   } catch (error) {
     console.log("❌ Error to edit username:", error);
     res.send("Failed to edit username");
+  }
+});
+
+// Edit email
+router.put("/edit-email", async (req, res) => {
+  const userId = req.session.user._id;
+  try {
+    if (!userId) {
+      return res.send("User not found");
+    }
+
+    const email = req.body.email;
+    console.log(email);
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { email: email },
+      {
+        new: true,
+      },
+    ).select("-password");
+
+    const otpCode = nanoidOtp();
+    updatedUser.otpCode = otpCode;
+    updatedUser.isVerified = false
+    updatedUser.save();
+    sendEmailVerification(updatedUser.email, otpCode);
+    console.log("✅ Email updated successfully:", updatedUser);
+    res.redirect(`/auth/verification/${updatedUser._id}`);
+  } catch (error) {
+    console.log("❌ Error to edit email:", error);
+    res.send("Failed to edit email");
   }
 });
 
@@ -225,7 +261,7 @@ router.put("/reset-password", requireAuth, async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { password: password },
-      { new: true }
+      { new: true },
     );
     console.log("✅ reset password successfully:");
     req.session.destroy(); // sign out

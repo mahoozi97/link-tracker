@@ -4,13 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
-    <link rel="stylesheet" href="/profile-details.css">
+    <link rel="stylesheet" href="/profile-details.css" />
   </head>
   <body>
     <%- include('./partials/nav.ejs') %>
 
     <div class="container">
       <h3>Profile</h3>
+      <form action="/auth/edit-email?_method=PUT" method="post">
+        <label
+          >Email:
+          <input
+            name="email"
+            type="email"
+            value="<%= email %>"
+            placeholder="Enter your Email"
+            required
+        /></label>
+        <button>Update</button>
+      </form>
+      <hr />
       <form action="/auth/edit-username?_method=PUT" method="post">
         <label
           >Username:
