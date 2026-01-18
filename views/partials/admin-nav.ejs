@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* Simple & Responsive Nav */
+      nav {
+        display: flex;
+        justify-content: space-between; /* Links on left, Tag on right */
+        align-items: center;
+        padding: 12px 20px;
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        font-family: sans-serif;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 15px;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: #555;
+        font-size: 14px;
+      }
+
+      nav a:hover {
+        color: #000;
+      }
+
+      /* Simple Server Tag */
+      .server-name {
+        background: #f0f0f0;
+        color: #333;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+      }
+
+      /* Mobile adjustment */
+      @media (max-width: 480px) {
+        nav {
+          flex-direction: column;
+          gap: 10px;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <span class="server-name">Link-Tracker</span>
+      <div class="nav-links">
+        <a href="/admin/dashboard">Home</a>
+        <a target="_blank" href="/links">My Links</a>
+        <a href="/auth/profile">Profile</a>
+        <a href="/auth/sign-out">Sign Out</a>
+      </div>
+    </nav>
+  </body>
+</html>

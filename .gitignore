@@ -1,0 +1,40 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Node dependencies
+node_modules/
+
+# Build outputs
+dist/
+dist-ssr/
+
+# Local environment files
+.env
+*.local
+
+# macOS system files
+.DS_Store
+
+# VSCode
+.vscode/*
+!.vscode/extensions.json
+
+# JetBrains IDEs
+.idea/
+
+# Visual Studio files
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Vim swap files
+*.sw?
+
+# Optional: Ignore temporary text files
+*.txt

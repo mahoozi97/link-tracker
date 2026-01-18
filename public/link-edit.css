@@ -1,0 +1,28 @@
+.container {
+  padding: 20px 20px;
+}
+
+label {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 600px;
+  padding: 5px;
+}
+
+button {
+  margin-top: 15px;
+  padding: 5px 15px;
+}
+
+.btn {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}

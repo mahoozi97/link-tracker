@@ -1,0 +1,41 @@
+.otp-message {
+  text-align: center;
+  margin-bottom: 16px;
+  font-size: 16px;
+  color: #333;
+}
+
+.otp-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.otp-container form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.otp-input {
+  width: 45px;
+  height: 45px;
+  text-align: center;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+}
+
+a {
+  text-decoration: none;
+}

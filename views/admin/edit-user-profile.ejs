@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit-User-Profile</title>
+    <link rel="stylesheet" href="/admin-css/edit-user-profile.css">
+  </head>
+  <body>
+    <%- include('../partials/admin-nav.ejs') %>
+
+    <div class="container">
+      <h3>Profile of <%= user.username %></h3>
+      <form action="/admin/user/<%= user._id %>?_method=PUT" method="post">
+        <!-- <input
+          style="display: none"
+          name="userId"
+          type="text"
+          value="<%= user._id %>"
+        /> -->
+
+        <label
+          >Username:
+          <input
+            name="username"
+            type="text"
+            value="<%= user.username %>"
+            placeholder="Enter your username"
+            required
+        /></label>
+
+        <label
+          >Role:
+          <input
+            name="role"
+            type="text"
+            value="<%= user.role %>"
+            placeholder="admin - user"
+            required
+        /></label>
+        <button>Update</button>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Link Manager</title>
+    <link rel="stylesheet" href="/links-list.css">
+  </head>
+  <body>
+    <%- include('./partials/nav.ejs') %>
+
+    <div class="container">
+      <div class="form-card">
+        <form action="/links/create" method="post" class="form-group">
+          <input
+            name="mainUrl"
+            type="text"
+            placeholder="Paste your URL here..."
+            required
+          />
+          <button class="btn-create">+ Create Link</button>
+        </form>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Short URL</th>
+              <th>Clicks</th>
+              <th>Main URL</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% links.forEach(link => { %>
+            <tr>
+              <td>
+                <a href="/links/<%= link.shortUrl %>" target="_blank"
+                  ><%= link.shortUrl %></a
+                >
+              </td>
+              <td><%= link.clicks %></td>
+              <td class="url-cell">
+                <a href="<%= link.mainUrl %>" target="_blank"
+                  ><%= link.mainUrl %></a
+                >
+              </td>
+              <td>
+                <div class="actions">
+                  <!-- <span class="hidden"><%=link.shortUrl%></span> -->
+                  <!-- <button class="btn-small btn">Copy</button> -->
+                  <a href="links/edit/<%=link.shortUrl%>" class="btn-small"
+                    >Edit</a
+                  >
+
+                  <form
+                    action="/links/<%=link._id%>?_method=DELETE"
+                    method="post"
+                  >
+                    <button class="btn-small btn-delete btn">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+      <!-- <p style="font-size: 14px;">localhost:3000/links/(your short Url)</p> -->
+    </div>
+  </body>
+</html>

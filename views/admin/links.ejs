@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard-Links</title>
+
+    <link rel="stylesheet" href="/admin-css/links.css" />
+  </head>
+  <body>
+    <%- include('../partials/admin-nav.ejs') %>
+
+    <div class="container">
+      <h3>Links</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Short URL</th>
+              <th>Clicks</th>
+              <th>Main URL</th>
+              <th>User Id</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% links.forEach(link => { %>
+            <tr>
+              <td>
+                <a href="/admin/<%= link.shortUrl %>" target="_blank"
+                  ><%= link.shortUrl %></a
+                >
+              </td>
+              <td><%= link.clicks %></td>
+              <td class="url-cell">
+                <a href="<%= link.mainUrl %>" target="_blank"
+                  ><%= link.mainUrl %></a
+                >
+              </td>
+              <td>
+                <a
+                  href="/admin/dashboard/links/<%= link.userId._id %>"
+                  target="_blank"
+                  ><%= link.userId %></a
+                >
+              </td>
+              <td>
+                <div class="actions">
+                  <form
+                    action="/admin/<%=link._id%>?_method=DELETE"
+                    method="post"
+                  >
+                    <input
+                      style="display: none"
+                      type="text"
+                      name="redirectTo"
+                      value="dashboard"
+                    />
+                    <button class="btn-small btn-delete btn">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

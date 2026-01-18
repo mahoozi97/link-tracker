@@ -1,0 +1,103 @@
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: sans-serif;
+  background: linear-gradient(135deg, #202a44 0%, #2e3a5f 100%);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #eee;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #555;
+  font-size: 14px;
+}
+
+nav a:hover {
+  color: #000;
+}
+
+.server-name {
+  background: #f0f0f0;
+  color: #333;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+main {
+  max-width: 900px;
+  margin: 80px auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
+main h1 {
+  font-size: 2.6rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #e6eaf2;
+}
+
+main p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #c9d2e3;
+  max-width: 600px;
+  margin: 0 auto 40px;
+}
+
+.cta {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.cta a {
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.cta .primary {
+  background: #4f7cff;
+  color: #ffffff;
+}
+
+.cta .primary:hover {
+  background: #3b66e6;
+}
+
+.cta .secondary {
+  border: 1px solid #9fb4ff;
+  color: #9fb4ff;
+}
+
+.cta .secondary:hover {
+  background: rgba(159, 180, 255, 0.15);
+}
+
+@media (max-width: 480px) {
+  nav {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+}
