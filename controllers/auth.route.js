@@ -159,6 +159,7 @@ router.get("/profile", requireAuth, async (req, res) => {
     return user.role === "admin"
       ? res.render("admin/admin-profile.ejs", {
           username: user.username,
+          email: user.email,
         })
       : res.render("profile-details.ejs", {
           username: user.username,
@@ -221,9 +222,13 @@ router.put("/edit-email", async (req, res) => {
       },
     ).select("-password");
 
+    if (req.session.user.role === "admin") {
+      return res.redirect("/auth/profile");
+    }
+
     const otpCode = nanoidOtp();
     updatedUser.otpCode = otpCode;
-    updatedUser.isVerified = false
+    updatedUser.isVerified = false;
     updatedUser.save();
     sendEmailVerification(updatedUser.email, otpCode);
     console.log("✅ Email updated successfully:", updatedUser);
