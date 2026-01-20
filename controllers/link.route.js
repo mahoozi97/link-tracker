@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const validator = require("validator");
 const Link = require("../models/link-model");
 const { requireAuth } = require("../middleware/authentication");
 
@@ -35,7 +36,22 @@ router.post("/create", requireAuth, async (req, res) => {
       exist = await Link.findOne({ shortUrl });
     } while (exist);
 
-    const mainUrl = req.body.mainUrl;
+    let mainUrl = req.body.mainUrl;
+    if (!mainUrl.startsWith("http://") && !mainUrl.startsWith("https://")) {
+      mainUrl = "https://" + mainUrl;
+    }
+    
+    const validUrl = validator.isURL(mainUrl, {
+      protocols: ["http", "https"],
+      require_protocol: true,
+      require_tld: true, // .com ....
+    });
+
+    if (!validUrl) {
+      return res.send(
+        "Please enter a valid website address (e.g., https://www.example.com).",
+      );
+    }
     const newLink = await Link.create({
       mainUrl: mainUrl,
       shortUrl: shortUrl,
@@ -87,12 +103,30 @@ router.get("/edit/:shortUrl", requireAuth, async (req, res) => {
 router.put("/edit/:shortUrl", requireAuth, async (req, res) => {
   try {
     const { shortUrl } = req.params;
+
+    let mainUrl = req.body.mainUrl;
+    if (!mainUrl.startsWith("http://") && !mainUrl.startsWith("https://")) {
+      mainUrl = "https://" + mainUrl;
+    }
+
+    const validUrl = validator.isURL(mainUrl, {
+      protocols: ["http", "https"],
+      require_protocol: true,
+      require_tld: true, // .com ....
+    });
+
+    if (!validUrl) {
+      return res.send(
+        "Please enter a valid website address (e.g., https://www.example.com).",
+      );
+    }
+
     const updatedLink = await Link.findOneAndUpdate(
       { shortUrl: shortUrl },
-      req.body,
-      { new: true }
+      { mainUrl: mainUrl },
+      { new: true },
     );
-    console.log("✅ Updated link successfully");
+    console.log("✅ Updated link successfully", updatedLink);
     res.redirect("/links");
   } catch (error) {
     console.log("❌ Error to update link:", error);
