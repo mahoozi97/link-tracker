@@ -65,6 +65,12 @@ router.post("/verify", async (req, res) => {
     user.otpCode = "";
     user.save();
 
+    // for forgot password case
+    if (req.session.action === "forgot-password") {
+      req.session.destroy()
+      return res.redirect(`/auth/new-password/${userId}`);
+    }
+
     console.log("✅ Email verified successfully");
 
     req.session.user = {
@@ -205,7 +211,7 @@ router.put("/edit-username", requireAuth, async (req, res) => {
 });
 
 // Edit email
-router.put("/edit-email", async (req, res) => {
+router.put("/edit-email", requireAuth, async (req, res) => {
   const userId = req.session.user._id;
   try {
     if (!userId) {
@@ -274,6 +280,61 @@ router.put("/reset-password", requireAuth, async (req, res) => {
   } catch (error) {
     console.log("❌ Error to reset password:", error);
     res.send("Failed to reset password");
+  }
+});
+
+//  - - - - - - - - - - - - - FORGOT PASSWORD - - - - - - - - - - - - - -
+
+router.get("/forgot-password-verification", (req, res) => {
+  res.render("forgot-password.ejs");
+});
+
+// /auth/forgot-password-verification
+router.post("/forgot-password-verification", async (req, res) => {
+  const email = req.body.email;
+  try {
+    const foundUser = await User.findOne({ email: email }).select("-password");
+
+    if (!foundUser) {
+      return res.send("The email is wrong!!");
+    }
+
+    console.log("foundUser:", foundUser);
+    foundUser.otpCode = nanoidOtp();
+    foundUser.isVerified = false;
+    foundUser.save();
+    const otp = foundUser.otpCode;
+    sendEmailVerification(foundUser.email, otp);
+    req.session.action = "forgot-password";
+    res.redirect(`/auth/verification/${foundUser._id}`);
+  } catch (error) {
+    console.log("❌ Error to verifying email:", error);
+    res.send("Failed to verifying email");
+  }
+});
+
+router.get("/new-password/:userId", async (req, res) => {
+  res.render("reset-password.ejs", { userId: req.params.userId });
+});
+
+// set a new password after forgot it.
+router.put("/new-password", async (req, res) => {
+  const { newPassword, userId } = req.body;
+
+  try {
+    const password = await bcrypt.hash(newPassword, 10);
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        password: password,
+      },
+      { new: true },
+    );
+    console.log("✅ Reset forgotten password successfully ");
+    res.redirect("/auth/login");
+  } catch (error) {
+    console.log("❌ Error to reset forgotten password successfully :", error);
+    res.send("Failed to set your new password!");
   }
 });
 

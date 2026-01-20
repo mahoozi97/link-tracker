@@ -4,7 +4,7 @@ const methodOverride = require("method-override");
 const morgan = require("morgan");
 const session = require("express-session");
 const helmet = require("helmet");
-require("dotenv").config();
+const dotenv = require("dotenv").config();
 const PORT = process.env.PORT;
 const MONGODB_URL = process.env.MONGODB_URL;
 const SESSION_SECRET = process.env.SESSION_SECRET;
@@ -31,7 +31,7 @@ app.use(
     cookie: {
       maxAge: 1000 * 60 * 60, // 1h
     },
-  })
+  }),
 );
 
 const connectToDB = async () => {
