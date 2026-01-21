@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const validator = require("validator");
 const Link = require("../models/link-model");
+const Analytics = require("../models/analytic-model");
 const { requireAuth } = require("../middleware/authentication");
 
 const { customAlphabet } = require("nanoid");
@@ -40,7 +41,7 @@ router.post("/create", requireAuth, async (req, res) => {
     if (!mainUrl.startsWith("http://") && !mainUrl.startsWith("https://")) {
       mainUrl = "https://" + mainUrl;
     }
-    
+
     const validUrl = validator.isURL(mainUrl, {
       protocols: ["http", "https"],
       require_protocol: true,
@@ -76,10 +77,60 @@ router.get("/:shorturl", async (req, res) => {
     url.clicks++;
     await url.save();
     console.log(shortUrl, url);
+
+    //  - - ANALYTICS - -
+    const now = new Date();
+    const today = new Date(
+      Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+    );
+    const filter = { linkId: url._id, clickDate: today };
+    const ClicksCount = { $inc: { clicksCount: 1 } };
+    let doc = await Analytics.findOneAndUpdate(filter, ClicksCount, {
+      new: true,
+      upsert: true, // create the day's record if it doesn't exist
+    });
+
     res.redirect(url.mainUrl);
   } catch (error) {
     console.log("❌ Error to redirect to the main URL:", error);
     res.send("Failed to redirect to the main URL");
+  }
+});
+
+// Fetch Analytics data
+router.get("/:linkId/details", requireAuth, async (req, res) => {
+  const linkId = req.params.linkId;
+  try {
+    const linkData = await Analytics.find({ linkId: linkId })
+      .sort({ clicksCount: -1 })
+      .populate("linkId");
+    console.log(linkData);
+
+    if (!linkData || linkData.length === 0) {
+      return res.send("No click data available for this period.");
+    }
+
+    console.log("✅ Details fetched successfully", linkData);
+    const shortUrl = linkData[0].linkId.shortUrl;
+    const mainUrl = linkData[0].linkId.mainUrl;
+    const totalClicks = linkData[0].linkId.clicks;
+    let totalClicksCount = linkData.reduce(
+      (accumulator, clicks) => accumulator + clicks.clicksCount,
+      0,
+    );
+    const dailyAverage = totalClicksCount / linkData.length;
+    console.log(totalClicksCount, linkData.length, dailyAverage);
+    res.render("link-details.ejs", {
+      linkData,
+      shortUrl,
+      mainUrl,
+      totalClicks,
+      dailyAverage,
+      linkId
+    });
+  } catch (error) {
+    console.log("❌ Error to fetch details:", error);
+    res.send("Failed to fetch details");
   }
 });
 

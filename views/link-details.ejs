@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Link Analytics</title>
+  <link rel="stylesheet" href="/link-details.css">
+</head>
+
+<body>
+
+  <%- include('./partials/nav.ejs') %>
+
+    <div class="analytics-container">
+      <div class="url-card">
+        <div class="url-row">
+          <strong>Short URL</strong>
+          <a href="/links/<%= shortUrl %>" target="_blank">
+            <%= shortUrl %>
+          </a>
+          <hr>
+          <a target="_blank" href="/links/edit/<%=shortUrl%>">Edit</a>
+        </div>
+        <div class="url-row">
+          <strong>Main URL</strong>
+          <a href="<%= mainUrl %>" target="_blank">
+            <%= mainUrl %>
+          </a>
+          <form class="action-right" action="/links/<%=linkId%>?_method=DELETE" method="post">
+            <a href=""><button class="btn">Delete</button></a>
+          </form>
+        </div>
+      </div>
+
+      <div class="url-card">
+        <div class="url-row">
+          <strong>Total Clicks</strong>
+          <td>
+            <%= totalClicks %>
+          </td>
+        </div>
+        <div class="url-row">
+          <strong>Daily Average</strong>
+          <td>
+            <%= dailyAverage %>
+          </td>
+        </div>
+        <div class="url-row">
+          <strong>Period</strong>
+          <td>
+            <%= linkData.length %>
+              <%= linkData.length < 2 ? "Day" : "Days" %>
+          </td>
+        </div>
+      </div>
+
+      <table class="stats-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Clicks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% const dayNames=["Sun", "Mon" , "Tue" , "Wed" , "Thu" , "Fri" , "Sat" ]; const monthNames=["Jan", "Feb"
+            , "Mar" , "Apr" , "May" , "Jun" , "Jul" , "Aug" , "Sep" , "Oct" , "Nov" , "Dec" ]; %>
+
+            <% linkData.forEach((data)=> { %>
+              <% const date=data.clickDate; const dayName=dayNames[date.getDay()]; const dayNum=date.getDate(); const
+                monthName=monthNames[date.getMonth()]; const year=date.getFullYear(); %>
+                <tr>
+                  <td>
+                    <%= dayName %>
+                      <%= dayNum %>
+                        <%= monthName %>
+                          <%= year %>
+                  </td>
+                  <td class="count">
+                    <%= data.clicksCount %>
+                  </td>
+                </tr>
+                <% }) %>
+        </tbody>
+      </table>
+    </div>
+</body>
+
+</html>

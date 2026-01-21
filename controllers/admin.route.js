@@ -49,8 +49,8 @@ router.get("/dashboard/links/:userId", async (req, res) => {
       .sort({ _id: -1 })
       .populate("userId", "-password"); // Exclude password fields from populated query data...
 
-    const username = links.map((linke) => {
-      return linke.userId.username;
+    const username = links.map((link) => {
+      return link.userId.username;
     });
 
     console.log("✅ links for user fetched successfully", links, username);

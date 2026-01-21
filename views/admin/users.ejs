@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard - users</title>
-    <link rel="stylesheet" href="/admin-css/users.css" />
-  </head>
-  <body>
-    <%- include('../partials/admin-nav.ejs') %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - users</title>
+  <link rel="stylesheet" href="/admin-css/users.css" />
+</head>
+
+<body>
+  <%- include('../partials/admin-nav.ejs') %>
 
     <div class="container">
       <h3>Users</h3>
@@ -24,32 +26,38 @@
             </tr>
           </thead>
           <tbody>
-            <% users.forEach(user => { %>
-            <tr>
-              <td><%=user._id%></td>
-              <td><%=user.email%></td>
-              <td><%= user.username %></td>
-              <td><%=user.isVerified%></td>
-              <td><%= user.role %></td>
-              <td>
-                <div class="actions">
-                  <a href="/admin/dashboard/users/<%=user._id%>"
-                    ><button class="btn-small btn">Edit</button></a
-                  >
+            <% users.forEach(user=> { %>
+              <tr>
+                <td>
+                  <%=user._id%>
+                </td>
+                <td>
+                  <%=user.email%>
+                </td>
+                <td>
+                  <%= user.username %>
+                </td>
+                <td>
+                  <%=user.isVerified%>
+                </td>
+                <td>
+                  <%= user.role %>
+                </td>
+                <td>
+                  <div class="actions">
+                    <a href="/admin/dashboard/users/<%=user._id%>"><button class="btn-small btn">Edit</button></a>
 
-                  <form
-                    action="/admin/user/<%=user._id%>?_method=DELETE"
-                    method="post"
-                  >
-                    <button class="btn-small btn-delete btn">Delete</button>
-                  </form>
-                </div>
-              </td>
-            </tr>
-            <% }) %>
+                    <form action="/admin/user/<%=user._id%>?_method=DELETE" method="post">
+                      <button class="btn-small btn-delete btn">Delete</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
           </tbody>
         </table>
       </div>
     </div>
-  </body>
+</body>
+
 </html>

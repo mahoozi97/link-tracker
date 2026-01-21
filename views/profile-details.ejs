@@ -1,64 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile</title>
-    <link rel="stylesheet" href="/profile-details.css" />
-  </head>
-  <body>
-    <%- include('./partials/nav.ejs') %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile</title>
+  <link rel="stylesheet" href="/profile-details.css" />
+</head>
+
+<body>
+  <%- include('./partials/nav.ejs') %>
 
     <div class="container">
       <h3>Profile</h3>
       <form action="/auth/edit-email?_method=PUT" method="post">
-        <label
-          >Email:
-          <input
-            name="email"
-            type="email"
-            value="<%= email %>"
-            placeholder="Enter your Email"
-            required
-        /></label>
+        <label>Email:
+          <input name="email" type="email" value="<%= email %>" placeholder="Enter your Email" required /></label>
         <button>Update</button>
       </form>
       <hr />
       <form action="/auth/edit-username?_method=PUT" method="post">
-        <label
-          >Username:
-          <input
-            name="username"
-            type="text"
-            value="<%= username %>"
-            placeholder="Enter your username"
-            required
-        /></label>
+        <label>Username:
+          <input name="username" type="text" value="<%= username %>" placeholder="Enter your username"
+            required /></label>
         <button>Update</button>
       </form>
 
       <hr />
 
       <form action="/auth/reset-password?_method=PUT" method="post">
-        <label
-          >Current Password:
-          <input
-            name="currentPassword"
-            type="password"
-            placeholder="Enter your current password"
-            required
-        /></label>
+        <label>Current Password:
+          <input name="currentPassword" type="password" placeholder="Enter your current password" required /></label>
 
-        <label
-          >New Password:
-          <input
-            name="newPassword"
-            type="password"
-            placeholder="Enter your new password"
-            required
-        /></label>
+        <label>New Password:
+          <input name="newPassword" type="password" placeholder="Enter your new password" required /></label>
         <button>Reset Password</button>
       </form>
     </div>
-  </body>
+</body>
+
 </html>

@@ -57,3 +57,4 @@ app.use("/admin", requireAuth, adminAuth, adminRoutes);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT} 🔥`);
 });
+

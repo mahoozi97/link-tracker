@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>links-by-user</title>
-    <link rel="stylesheet" href="/admin-css/links-by-user-id.css">
-  </head>
-  <body>
-    <%- include('../partials/admin-nav.ejs') %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>links-by-user</title>
+  <link rel="stylesheet" href="/admin-css/links-by-user-id.css">
+</head>
+
+<body>
+  <%- include('../partials/admin-nav.ejs') %>
 
     <div class="container">
-      <h3><%= username %>’s links</h3>
+      <h3>
+        <%= username %>’s links
+      </h3>
       <div class="table-wrapper">
         <table>
           <thead>
@@ -22,40 +26,35 @@
             </tr>
           </thead>
           <tbody>
-            <% links.forEach(link => { %>
-            <tr>
-              <td>
-                <a href="/admin/<%= link.shortUrl %>" target="_blank"
-                  ><%= link.shortUrl %></a
-                >
-              </td>
-              <td><%= link.clicks %></td>
-              <td class="url-cell">
-                <a href="<%= link.mainUrl %>" target="_blank"
-                  ><%= link.mainUrl %></a
-                >
-              </td>
-              <td>
-                <div class="actions">
-                  <form
-                    action="/admin/<%=link._id%>?_method=DELETE"
-                    method="post"
-                  >
-                    <input
-                      style="display: none"
-                      type="text"
-                      name="redirectTo"
-                      value="specific user"
-                    />
-                    <button class="btn-small btn-delete btn">Delete</button>
-                  </form>
-                </div>
-              </td>
-            </tr>
-            <% }) %>
+            <% links.forEach(link=> { %>
+              <tr>
+                <td>
+                  <a href="/admin/<%= link.shortUrl %>" target="_blank">
+                    <%= link.shortUrl %>
+                  </a>
+                </td>
+                <td>
+                  <%= link.clicks %>
+                </td>
+                <td class="url-cell">
+                  <a href="<%= link.mainUrl %>" target="_blank">
+                    <%= link.mainUrl %>
+                  </a>
+                </td>
+                <td>
+                  <div class="actions">
+                    <form action="/admin/<%=link._id%>?_method=DELETE" method="post">
+                      <input style="display: none" type="text" name="redirectTo" value="specific user" />
+                      <button class="btn-small btn-delete btn">Delete</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+              <% }) %>
           </tbody>
         </table>
       </div>
     </div>
-  </body>
+</body>
+
 </html>
