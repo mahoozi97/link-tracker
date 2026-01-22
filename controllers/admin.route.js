@@ -3,6 +3,12 @@ const Link = require("../models/link-model");
 const User = require("../models/user-model");
 const Analytics = require("../models/analytic-model");
 const bcrypt = require("bcrypt");
+const todayDate = require("../utils/today-date");
+
+// const now = new Date();
+// const filterDate = new Date(
+//   Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+// );
 
 // - - - - - - - - - - - - - - LINKS - - - - - - - - - - - - - - - -
 
@@ -157,11 +163,9 @@ router.delete("/user/:userId", async (req, res) => {
 });
 
 //  - - - - - - - - - - - - - ANALYTICS - - - - - - - - - - -
+
 router.get("/dashboard/analytics", async (req, res) => {
-  const now = new Date();
-  const filterDate = new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
-  );
+  const filterDate = todayDate();
   filterDate.setDate(filterDate.getDate() - 30);
   try {
     const analyticsData = await Analytics.aggregate([
