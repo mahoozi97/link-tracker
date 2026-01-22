@@ -48,6 +48,8 @@
                 </td>
                 <td>
                   <div class="actions">
+                    <a target="_blank" href="/admin/dashboard/analytics/<%=link._id%>"><button
+                        class="btn-small btn">Details</button></a>
                     <form action="/admin/<%=link._id%>?_method=DELETE" method="post">
                       <input style="display: none" type="text" name="redirectTo" value="dashboard" />
                       <button class="btn-small btn-delete btn">Delete</button>
