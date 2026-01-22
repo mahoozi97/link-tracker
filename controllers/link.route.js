@@ -97,43 +97,6 @@ router.get("/:shorturl", async (req, res) => {
   }
 });
 
-// Fetch Analytics data
-router.get("/:linkId/details", requireAuth, async (req, res) => {
-  const linkId = req.params.linkId;
-  try {
-    const linkData = await Analytics.find({ linkId: linkId })
-      .sort({ clicksCount: -1 })
-      .populate("linkId");
-    console.log(linkData);
-
-    if (!linkData || linkData.length === 0) {
-      return res.send("No click data available for this period.");
-    }
-
-    console.log("✅ Details fetched successfully", linkData);
-    const shortUrl = linkData[0].linkId.shortUrl;
-    const mainUrl = linkData[0].linkId.mainUrl;
-    const totalClicks = linkData[0].linkId.clicks;
-    let totalClicksCount = linkData.reduce(
-      (accumulator, clicks) => accumulator + clicks.clicksCount,
-      0,
-    );
-    const dailyAverage = totalClicksCount / linkData.length;
-    console.log(totalClicksCount, linkData.length, dailyAverage);
-    res.render("link-details.ejs", {
-      linkData,
-      shortUrl,
-      mainUrl,
-      totalClicks,
-      dailyAverage,
-      linkId
-    });
-  } catch (error) {
-    console.log("❌ Error to fetch details:", error);
-    res.send("Failed to fetch details");
-  }
-});
-
 // render edit link page
 router.get("/edit/:shortUrl", requireAuth, async (req, res) => {
   try {
@@ -197,6 +160,43 @@ router.delete("/:id", requireAuth, async (req, res) => {
   } catch (error) {
     console.error("❌ Error to delete link:", error);
     res.send({ message: "Failed to delete the link" });
+  }
+});
+
+// Fetch Analytics data
+router.get("/:linkId/details", requireAuth, async (req, res) => {
+  const linkId = req.params.linkId;
+  try {
+    const linkData = await Analytics.find({ linkId: linkId })
+      .sort({ clicksCount: -1 })
+      .populate("linkId");
+    console.log(linkData);
+
+    if (!linkData || linkData.length === 0) {
+      return res.send("No click data available for this period.");
+    }
+
+    console.log("✅ Details fetched successfully", linkData);
+    const shortUrl = linkData[0].linkId.shortUrl;
+    const mainUrl = linkData[0].linkId.mainUrl;
+    const totalClicks = linkData[0].linkId.clicks;
+    let totalClicksCount = linkData.reduce(
+      (accumulator, clicks) => accumulator + clicks.clicksCount,
+      0,
+    );
+    const dailyAverage = (totalClicksCount / linkData.length).toFixed(1);
+    console.log(totalClicksCount, linkData.length, dailyAverage);
+    res.render("link-details.ejs", {
+      linkData,
+      shortUrl,
+      mainUrl,
+      totalClicks,
+      dailyAverage,
+      linkId
+    });
+  } catch (error) {
+    console.log("❌ Error to fetch details:", error);
+    res.send("Failed to fetch details");
   }
 });
 

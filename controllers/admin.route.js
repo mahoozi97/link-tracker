@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Link = require("../models/link-model");
 const User = require("../models/user-model");
+const Analytics = require("../models/analytic-model");
 const bcrypt = require("bcrypt");
 
 // - - - - - - - - - - - - - - LINKS - - - - - - - - - - - - - - - -
@@ -49,10 +50,7 @@ router.get("/dashboard/links/:userId", async (req, res) => {
       .sort({ _id: -1 })
       .populate("userId", "-password"); // Exclude password fields from populated query data...
 
-    const username = links.map((link) => {
-      return link.userId.username;
-    });
-
+    const username = links[0].userId.username;
     console.log("✅ links for user fetched successfully", links, username);
     res.render("admin/links-by-user-id.ejs", { links, username });
   } catch (error) {
@@ -74,9 +72,11 @@ router.delete("/:linkId", async (req, res) => {
     const userId = deletedLink.userId._id;
     if (redirectTo === "specific user") {
       const userPage = `/admin/dashboard/links/${userId}`;
-      res.redirect(userPage);
+      return res.redirect(userPage);
+    } else if (redirectTo === "analytics") {
+      res.redirect("/admin/dashboard/analytics");
     } else {
-      res.redirect("/admin/dashboard/links");
+      return res.redirect("/admin/dashboard/links");
     }
   } catch (error) {
     console.error("❌ Error to delete link:", error);
@@ -126,7 +126,7 @@ router.put("/user/:userId", async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { ...req.body },
-      { new: true }
+      { new: true },
     ).select("-password");
     console.log("✅ User updated successfully", updatedUser);
     res.redirect(`/admin/dashboard/users/${userId}`);
@@ -153,6 +153,92 @@ router.delete("/user/:userId", async (req, res) => {
   } catch (error) {
     console.log("❌ Error to delete user", error);
     res.send("Failed to delete user");
+  }
+});
+
+//  - - - - - - - - - - - - - ANALYTICS - - - - - - - - - - -
+router.get("/dashboard/analytics", async (req, res) => {
+  const now = new Date();
+  const filterDate = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+  );
+  filterDate.setDate(filterDate.getDate() - 30);
+  try {
+    const analyticsData = await Analytics.aggregate([
+      { $match: { clickDate: { $gte: filterDate } } },
+      {
+        $group: {
+          _id: "$linkId",
+          totalClicks: { $sum: "$clicksCount" },
+          avgClickPerDay: { $avg: "$clicksCount" },
+        },
+      },
+      {
+        $lookup: {
+          from: "links",
+          localField: "_id",
+          foreignField: "_id",
+          as: "linkInfo",
+        },
+      },
+      { $unwind: "$linkInfo" },
+      { $sort: { totalClicks: -1 } },
+      // { $limit: 5 },
+    ]);
+    console.log("✅ Analytics data:", analyticsData);
+    res.render("admin/analytics.ejs", { analyticsData });
+  } catch (error) {
+    console.log("❌ Error to fetch analytics data:", error);
+    res.send("Failed to fetch analytics data ");
+  }
+});
+
+// analytics per link
+router.get("/dashboard/analytics/:linkId", async (req, res) => {
+  const linkId = req.params.linkId;
+  try {
+    const linkData = await Analytics.find({ linkId: linkId })
+      .sort({ clicksCount: -1 })
+      .populate({
+        path: "linkId",
+        populate: {
+          // nested populate
+          path: "userId",
+          model: "User",
+          select: "-password -email",
+        },
+      });
+    console.log(linkData);
+
+    if (!linkData || linkData.length === 0) {
+      return res.send("No click data available for this period.");
+    }
+
+    console.log("✅ Details fetched successfully", linkData);
+    const shortUrl = linkData[0].linkId.shortUrl;
+    const mainUrl = linkData[0].linkId.mainUrl;
+    const createdBy = linkData[0].linkId.userId.username;
+    const userId = linkData[0].linkId.userId._id;
+    const totalClicks = linkData[0].linkId.clicks;
+    let totalClicksCount = linkData.reduce(
+      (accumulator, clicks) => accumulator + clicks.clicksCount,
+      0,
+    );
+    const dailyAverage = totalClicksCount / linkData.length;
+    console.log(totalClicksCount, linkData.length, dailyAverage);
+    res.render("admin/details.ejs", {
+      linkData,
+      shortUrl,
+      mainUrl,
+      totalClicks,
+      dailyAverage,
+      linkId,
+      createdBy,
+      userId,
+    });
+  } catch (error) {
+    console.log("❌ Error to fetch details:", error);
+    res.send("Failed to fetch details");
   }
 });
 

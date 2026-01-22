@@ -10,13 +10,19 @@
 
 <body>
 
-  <%- include('./partials/nav.ejs') %>
+  <%- include('../partials/admin-nav.ejs') %>
 
     <div class="analytics-container">
       <div class="url-card">
+
+        <div class="url-row">
+          <strong>Created by</strong>
+          <strong><%=createdBy%></strong>
+        </div>
+
         <div class="url-row">
           <strong>Short URL</strong>
-          <a href="/links/<%= shortUrl %>" target="_blank">
+          <a href="/admin/<%= shortUrl %>" target="_blank">
             <%= shortUrl %>
           </a>
         </div>
@@ -25,13 +31,8 @@
           <a href="<%= mainUrl %>" target="_blank">
             <%= mainUrl %>
           </a>
-
-        </div>
-
-        <div class="url-row">
-          <a target="_blank" href="/links/edit/<%=shortUrl%>">Edit</a>
-          <hr>
-          <form class="action-right" action="/links/<%=linkId%>?_method=DELETE" method="post">
+          <form class="action-right" action="/admin/<%=linkId%>?_method=DELETE" method="post">
+            <input style="display: none;" name="redirectTo" type="text" value="analytics">
             <a href=""><button class="btn">Delete</button></a>
           </form>
         </div>

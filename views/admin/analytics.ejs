@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics Dashboard</title>
+  <link rel="stylesheet" href="/admin-css/analytics.css">
+</head>
+
+<body>
+
+  <%- include('../partials/admin-nav.ejs') %>
+
+    <div class="analytics-container">
+      <h1>Last 30 Days</h1>
+
+      <% analyticsData.forEach((data)=> { %>
+        <div class="url-card">
+
+          <div class="url-row">
+            <strong>Short URL</strong>
+            <a href="/admin/<%= data.linkInfo.shortUrl %>" target="_blank">
+              <%= data.linkInfo.shortUrl %>
+            </a>
+          </div>
+
+          <div class="url-row">
+            <strong>Main URL</strong>
+            <a href="<%= data.linkInfo.mainUrl %>" target="_blank">
+              <%= data.linkInfo.mainUrl %>
+            </a>
+          </div>
+
+          <table class="stats-table" style="margin-top: 20px; box-shadow: none; border: 1px solid #f1f5f9;">
+            <tr>
+              <td>Total Clicks</td>
+              <td class="count">
+                <%= data.totalClicks %>
+              </td>
+            </tr>
+            <tr>
+              <td>Daily Average</td>
+              <td class="count">
+                <%= data.avgClickPerDay.toFixed(1) %>
+              </td>
+            </tr>
+          </table>
+
+          <div class="url-row" style="margin-top: 20px; justify-content: flex-end;">
+            <a href="/admin/dashboard/analytics/<%=data.linkInfo._id%>" class="btn" style="color: #2563eb;">View
+              Details</a>
+          </div>
+
+        </div>
+        <% }) %>
+
+    </div>
+
+</body>
+
+</html>
