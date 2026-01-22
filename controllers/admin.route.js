@@ -5,11 +5,6 @@ const Analytics = require("../models/analytic-model");
 const bcrypt = require("bcrypt");
 const todayDate = require("../utils/today-date");
 
-// const now = new Date();
-// const filterDate = new Date(
-//   Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
-// );
-
 // - - - - - - - - - - - - - - LINKS - - - - - - - - - - - - - - - -
 
 router.get("/dashboard", (req, res) => {

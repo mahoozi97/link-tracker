@@ -11,11 +11,6 @@ const nanoidShort = customAlphabet(alphabet, 8);
 
 const todayDate = require("../utils/today-date");
 
-// const now = new Date();
-// const today = new Date(
-//   Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
-// );
-
 router.get("/", requireAuth, async (req, res) => {
   const userId = req.session.user._id;
   try {
