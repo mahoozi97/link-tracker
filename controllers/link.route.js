@@ -9,6 +9,11 @@ const alphabet =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 const nanoidShort = customAlphabet(alphabet, 8);
 
+const now = new Date();
+const today = new Date(
+  Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+);
+
 router.get("/", requireAuth, async (req, res) => {
   const userId = req.session.user._id;
   try {
@@ -79,10 +84,6 @@ router.get("/:shorturl", async (req, res) => {
     console.log(shortUrl, url);
 
     //  - - ANALYTICS - -
-    const now = new Date();
-    const today = new Date(
-      Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
-    );
     const filter = { linkId: url._id, clickDate: today };
     const ClicksCount = { $inc: { clicksCount: 1 } };
     let doc = await Analytics.findOneAndUpdate(filter, ClicksCount, {
@@ -192,7 +193,7 @@ router.get("/:linkId/details", requireAuth, async (req, res) => {
       mainUrl,
       totalClicks,
       dailyAverage,
-      linkId
+      linkId,
     });
   } catch (error) {
     console.log("❌ Error to fetch details:", error);
