@@ -1,3 +1,7 @@
+body {
+  background-color: #f1f5f9;
+}
+
 .otp-message {
   text-align: center;
   margin-bottom: 16px;
