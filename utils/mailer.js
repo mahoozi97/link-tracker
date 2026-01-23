@@ -1,7 +1,9 @@
+// https://www.w3schools.com/nodejs/nodejs_email.asp
+
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  service: "gmail", // email provider
+  service: "gmail",
   auth: {
     user: process.env.EMAIL,
     pass: process.env.PASS,
