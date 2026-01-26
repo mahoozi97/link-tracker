@@ -19,6 +19,11 @@
         <div class="url-card">
 
           <div class="url-row">
+            <strong>Created By</strong>
+            <strong><%= data.userInfo.username %></strong>
+          </div>
+
+          <div class="url-row">
             <strong>Short URL</strong>
             <a href="/admin/<%= data.linkInfo.shortUrl %>" target="_blank">
               <%= data.linkInfo.shortUrl %>

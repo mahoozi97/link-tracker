@@ -181,6 +181,25 @@ router.get("/dashboard/analytics", async (req, res) => {
         },
       },
       { $unwind: "$linkInfo" },
+      {
+        $lookup: {
+          from: "users",
+          localField: "linkInfo.userId",
+          foreignField: "_id",
+          as: "userInfo",
+        },
+      },
+      { $unwind: "$userInfo" },
+      {
+        $project: {
+          // the response wihtout bellow
+          "userInfo.password": 0,
+          "userInfo.email": 0,
+          "userInfo.role": 0,
+          "userInfo.isVerified": 0,
+          "userInfo.otpCode": 0,
+        },
+      },
       { $sort: { totalClicks: -1 } },
       // { $limit: 5 },
     ]);

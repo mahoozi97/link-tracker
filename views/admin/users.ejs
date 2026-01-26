@@ -38,7 +38,7 @@
                   <%= user.username %>
                 </td>
                 <td>
-                  <%=user.isVerified%>
+                  <%=user.isVerified === true ? "✅" : "❌"%>
                 </td>
                 <td>
                   <%= user.role %>
