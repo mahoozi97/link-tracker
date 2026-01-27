@@ -178,13 +178,13 @@ router.get("/:linkId/details", requireAuth, async (req, res) => {
     console.log("✅ Details fetched successfully", linkData);
     const shortUrl = linkData[0].linkId.shortUrl;
     const mainUrl = linkData[0].linkId.mainUrl;
-    const totalClicks = linkData[0].linkId.clicks;
-    let totalClicksCount = linkData.reduce(
+    // const totalClicks = linkData[0].linkId.clicks;
+    let totalClicks = linkData.reduce(
       (accumulator, clicks) => accumulator + clicks.clicksCount,
       0,
     );
-    const dailyAverage = (totalClicksCount / linkData.length).toFixed(1);
-    console.log(totalClicksCount, linkData.length, dailyAverage);
+    const dailyAverage = (totalClicks / linkData.length).toFixed(1);
+    console.log(totalClicks, linkData.length, dailyAverage);
     res.render("link-details.ejs", {
       linkData,
       shortUrl,

@@ -237,13 +237,12 @@ router.get("/dashboard/analytics/:linkId", async (req, res) => {
     const mainUrl = linkData[0].linkId.mainUrl;
     const createdBy = linkData[0].linkId.userId.username;
     const userId = linkData[0].linkId.userId._id;
-    const totalClicks = linkData[0].linkId.clicks;
-    let totalClicksCount = linkData.reduce(
+    let totalClicks = linkData.reduce(
       (accumulator, clicks) => accumulator + clicks.clicksCount,
       0,
     );
-    const dailyAverage = totalClicksCount / linkData.length;
-    console.log(totalClicksCount, linkData.length, dailyAverage);
+    const dailyAverage = totalClicks / linkData.length;
+    console.log(totalClicks, linkData.length, dailyAverage);
     res.render("admin/details.ejs", {
       linkData,
       shortUrl,
