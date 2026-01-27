@@ -78,3 +78,4 @@ Brief explanation of the main entities and relationships.
 - helmet
 - morgan
 - nanoid
+- validator
