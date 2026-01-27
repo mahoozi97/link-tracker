@@ -46,7 +46,7 @@ Link Tracker is a **URL Shortener and Tracking application** that allows users t
 
 ## 📊 Entity Relationship Diagram (ERD)
 
-![ERD Diagram](../link-tracker.drawio.svg)
+![ERD Diagram](./link-tracker.drawio.svg)
 
 Brief explanation of the main entities and relationships.
 
