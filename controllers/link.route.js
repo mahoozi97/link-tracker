@@ -154,7 +154,8 @@ router.delete("/:id", requireAuth, async (req, res) => {
       return res.send("Link not found");
     }
     const deletedLink = await Link.findByIdAndDelete(id);
-    console.log("✅ Link deleted successfully:", deletedLink);
+    const deletedData = await Analytics.deleteMany({linkId: deletedLink._id})
+    console.log("✅ Link deleted successfully:", deletedLink, "Data: ", deletedData);
     res.redirect("/links");
   } catch (error) {
     console.error("❌ Error to delete link:", error);

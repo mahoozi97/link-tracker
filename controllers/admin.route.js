@@ -69,7 +69,8 @@ router.delete("/:linkId", async (req, res) => {
       return res.send("Link not found");
     }
     const deletedLink = await Link.findByIdAndDelete(linkId);
-    console.log("✅ Link deleted successfully:", deletedLink);
+    const deletedData = await Analytics.deleteMany({linkId: deletedLink._id})
+    console.log("✅ Link deleted successfully:", deletedLink, "Data: ", deletedData);
     const userId = deletedLink.userId._id;
     if (redirectTo === "specific user") {
       const userPage = `/admin/dashboard/links/${userId}`;
