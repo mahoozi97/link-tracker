@@ -37,9 +37,9 @@ app.use(
 const connectToDB = async () => {
   try {
     await mongoose.connect(MONGODB_URL);
-    console.log("✅ MongoDB connected");
+    console.log("✅ MongoDB connected successfully");
   } catch (error) {
-    console.log("❌ MongoDB connection error:", error);
+    console.log("❌ Failed to connect to MongoDB:", error);
   }
 };
 connectToDB();
