@@ -69,8 +69,13 @@ router.delete("/:linkId", async (req, res) => {
       return res.send("Link not found");
     }
     const deletedLink = await Link.findByIdAndDelete(linkId);
-    const deletedData = await Analytics.deleteMany({linkId: deletedLink._id})
-    console.log("✅ Link deleted successfully:", deletedLink, "Data: ", deletedData);
+    const deletedData = await Analytics.deleteMany({ linkId: deletedLink._id });
+    console.log(
+      "✅ Link deleted successfully:",
+      deletedLink,
+      "Data: ",
+      deletedData,
+    );
     const userId = deletedLink.userId._id;
     if (redirectTo === "specific user") {
       const userPage = `/admin/dashboard/links/${userId}`;
@@ -142,12 +147,20 @@ router.put("/user/:userId", async (req, res) => {
 router.delete("/user/:userId", async (req, res) => {
   const userId = req.params.userId;
   try {
-    const links = await Link.deleteMany({ userId });
+    const links = await Link.find({ userId }).select("_id");
+    
+    const linksIds = links.map((link) => {
+      return link._id;
+    });
+    console.log("Link ID's:", linksIds)
 
-    const linksCount = await Link.countDocuments({ userId });
-    if (linksCount > 0) {
-      return res.send("Links aren't deleted");
-    }
+    const deletedData = await Analytics.deleteMany({
+      linkId: { $in: linksIds },
+    });
+    console.log("Deleted Data:", deletedData)
+
+    const deletedLinks = await Link.deleteMany({ userId });
+    console.log("Deleted Links:", deletedLinks)
 
     const user = await User.findByIdAndDelete(userId);
     console.log("✅ User deleted successfully");
