@@ -21,7 +21,7 @@
               <th>Short URL</th>
               <th>Clicks</th>
               <th>Main URL</th>
-              <th>User Id</th>
+              <th>Created By</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -42,8 +42,8 @@
                   </a>
                 </td>
                 <td>
-                  <a href="/admin/dashboard/links/<%= link.userId._id %>" target="_blank">
-                    <%= link.userId %>
+                  <a style="text-transform: uppercase" href="/admin/dashboard/links/<%= link.userId._id %>" target="_blank">
+                    <%= link.userId.username %>
                   </a>
                 </td>
                 <td>

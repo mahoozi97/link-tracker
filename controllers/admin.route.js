@@ -14,8 +14,9 @@ router.get("/dashboard", (req, res) => {
 // fetch all links for (Admin)
 router.get("/dashboard/links", async (req, res) => {
   try {
-    const links = await Link.find().sort({ _id: -1 });
-    console.log("✅ fetched all links successfully");
+    // need select only username from populate!!
+    const links = await Link.find().sort({ _id: -1 }).populate("userId", "username");
+    console.log("✅ fetched all links successfully", links);
     res.render("admin/links.ejs", { links });
   } catch (error) {
     console.log("❌ Error to fetch all links:", error);
