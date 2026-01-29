@@ -16,23 +16,28 @@
 
   <div class="wrapper">
     <div class="container login-form">
-      <h3>Sign Up</h3>
-      <form action="/auth/sign-up" method="post">
-        <label>Username:
-          <input name="username" type="text" placeholder="Enter your username" required /></label>
+      <% if (typeof error !=='undefined' && error) { %>
+        <p style="color: red;">
+          <%= error %>
+        </p>
+        <% } %>
+          <h3>Sign Up</h3>
+          <form action="/auth/sign-up" method="post">
+            <label>Username:
+              <input name="username" type="text" placeholder="Enter your username" required /></label>
 
-        <label>Email:
-          <input name="email" type="email" placeholder="Enter your email" required /></label>
+            <label>Email:
+              <input name="email" type="email" placeholder="Enter your email" required /></label>
 
-        <label>Password:
-          <input name="password" type="password" placeholder="Enter your password" required /></label>
+            <label>Password:
+              <input name="password" type="password" placeholder="Enter your password" required /></label>
 
-        <button type="submit">Sign Up</button>
-      </form>
+            <button type="submit">Sign Up</button>
+          </form>
 
-      <div class="footer-links">
-        <h4>Already have an account? <a href="/auth/login">Log in</a></h4>
-      </div>
+          <div class="footer-links">
+            <h4>Already have an account? <a href="/auth/login">Log in</a></h4>
+          </div>
     </div>
   </div>
 </body>

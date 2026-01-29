@@ -17,28 +17,33 @@
 
   <div class="wrapper">
     <div class="container login-form">
-      <h3>Log in</h3>
-      <form action="/auth/login" method="post">
-        <label>
-          Username
-          <input name="username" type="text" placeholder="Enter your username" required />
-        </label>
+      <% if (typeof error !=='undefined' && error) { %>
+        <p style="color: red;">
+          <%= error %>
+        </p>
+        <% } %>
+          <h3>Log in</h3>
+          <form action="/auth/login" method="post">
+            <label>
+              Username
+              <input name="username" type="text" placeholder="Enter your username" required />
+            </label>
 
-        <label>
-          Password
-          <input name="password" type="password" placeholder="Enter your password" required />
-        </label>
+            <label>
+              Password
+              <input name="password" type="password" placeholder="Enter your password" required />
+            </label>
 
-        <button type="submit">Sign In</button>
-      </form>
+            <button type="submit">Sign In</button>
+          </form>
 
-      <div class="footer-links">
-        <h4>
-          Forgot your password?
-          <a href="/auth/forgot-password-verification">Click here</a>
-        </h4>
-        <h4>Create new account <a href="/auth/sign-up">Sign up</a></h4>
-      </div>
+          <div class="footer-links">
+            <h4>
+              Forgot your password?
+              <a href="/auth/forgot-password-verification">Click here</a>
+            </h4>
+            <h4>Create new account <a href="/auth/sign-up">Sign up</a></h4>
+          </div>
     </div>
   </div>
 </body>

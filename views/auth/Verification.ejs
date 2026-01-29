@@ -18,17 +18,22 @@
     We’ve sent a 4-digit verification code to your email. Please enter it
     below to verify your email address.
   </p>
-  <div class="otp-container">
-    <form action="/auth/verify" , method="post">
-      <input style="display: none" name="userId" type="text" value="<%=userId%>" />
-      <input name="one" type="text" class="otp-input" maxlength="1" required autocomplete="off" />
-      <input name="two" type="text" class="otp-input" maxlength="1" required autocomplete="off" />
-      <input name="three" type="text" class="otp-input" maxlength="1" required autocomplete="off" />
-      <input name="four" type="text" class="otp-input" maxlength="1" required autocomplete="off" />
-      <button class="btn">Verify</button>
-    </form>
-    <a href="/auth/send-again/<%=userId%>"><button class="btn">Send again</button></a>
-  </div>
+  <% if (typeof error !=='undefined' && error) { %>
+    <p class="otp-message" style="color: red;">
+      <%= error %>
+    </p>
+    <% } %>
+      <div class="otp-container">
+        <form action="/auth/verify" , method="post">
+          <input style="display: none" name="userId" type="text" value="<%=userId%>" />
+          <input name="one" type="text" class="otp-input" maxlength="1" required autocomplete="off" />
+          <input name="two" type="text" class="otp-input" maxlength="1" required autocomplete="off" />
+          <input name="three" type="text" class="otp-input" maxlength="1" required autocomplete="off" />
+          <input name="four" type="text" class="otp-input" maxlength="1" required autocomplete="off" />
+          <button class="btn">Verify</button>
+        </form>
+        <a href="/auth/send-again/<%=userId%>"><button class="btn">Send again</button></a>
+      </div>
 </body>
 
 </html>

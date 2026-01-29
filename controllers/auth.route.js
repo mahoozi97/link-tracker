@@ -23,10 +23,14 @@ router.post("/sign-up", async (req, res) => {
 
     if (userFound) {
       if (userFound.username === username) {
-        return res.send("Username already taken.");
+        return res.render("auth/sign-up.ejs", {
+          error: "Username already taken.",
+        });
       }
       if (userFound.email === email) {
-        return res.send("Already you have account!");
+        return res.render("auth/sign-up.ejs", {
+          error: "You already have an account.",
+        });
       }
     }
 
@@ -41,7 +45,9 @@ router.post("/sign-up", async (req, res) => {
     res.redirect(`/auth/verification/${newUser._id}`);
   } catch (error) {
     console.log("❌ Error sign up:", error);
-    res.send("Failed sign up");
+    res.render("auth/sign-up.ejs", {
+      error: "An error occurred during sign-up. Please try again later.",
+    });
   }
 });
 
@@ -59,7 +65,10 @@ router.post("/verify", async (req, res) => {
     const validOtp = bcrypt.compareSync(otpCode, user.otpCode);
 
     if (!validOtp) {
-      return res.send("The verification code is wrong");
+      return res.render("auth/Verification.ejs", {
+        userId: user._id,
+        error: "The verification code is wrong",
+      });
     }
     user.isVerified = true;
     user.otpCode = "";
@@ -67,7 +76,7 @@ router.post("/verify", async (req, res) => {
 
     // for forgot password case
     if (req.session.action === "forgot-password") {
-      req.session.destroy()
+      req.session.destroy();
       return res.redirect(`/auth/new-password/${userId}`);
     }
 
@@ -115,13 +124,13 @@ router.post("/login", async (req, res) => {
 
     // Check if the user exists
     if (!user) {
-      return res.send("Login failed. Please try again.");
+      return res.render("auth/sign-in.ejs", { error: "Username not found" });
     }
 
     const validPassword = bcrypt.compareSync(password, user.password);
 
     if (!validPassword) {
-      return res.send("Login failed. Please try again.");
+      return res.render("auth/sign-in.ejs", { error: "Incorrect password" });
     }
 
     if (!user.isVerified) {
@@ -148,17 +157,24 @@ router.post("/login", async (req, res) => {
       : res.redirect("/links");
   } catch (error) {
     console.log("❌ Error sign in:", error);
-    res.send("Failed sign in");
+    res.render("auth/sign-in.ejs", {
+      error: "An error occurred during sign-in. Please try again later.",
+    });
   }
 });
 
-// render profile page with user data.
+// sign out
+router.get("/sign-out", (req, res) => {
+  req.session.destroy();
+  res.redirect("/");
+});
+
+//  - - - - - - - - - - - - - PROFILE - - - - - - - - - - - - - -
+
+// render profile page
 router.get("/profile", requireAuth, async (req, res) => {
   const userId = req.session.user._id;
   try {
-    if (!userId) {
-      return res.send("User not found");
-    }
     const user = await User.findById(userId).select("-password");
     console.log("✅ User data fetched successfully", user);
 
@@ -177,33 +193,29 @@ router.get("/profile", requireAuth, async (req, res) => {
   }
 });
 
-// sign out
-router.get("/sign-out", (req, res) => {
-  req.session.destroy();
-  res.redirect("/");
-});
-
 // edit username
 router.put("/edit-username", requireAuth, async (req, res) => {
   const userId = req.session.user._id;
   try {
-    if (!userId) {
-      return res.send("User not found");
-    }
     const username = req.body.username;
     console.log(username);
+    const userFound = await User.findOne({ username: username }).select(
+      "username",
+    );
+
+    if (userFound) {
+      return res.send("Username already taken.");
+    }
+
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { username: username },
       {
         new: true,
       },
-    ).select("-password");
+    ).select("username");
     console.log("✅ Username updated successfully:", updatedUser);
-
-    return req.session.user.role === "admin"
-      ? res.redirect("/auth/profile")
-      : res.redirect("/links");
+    res.redirect("/auth/profile")
   } catch (error) {
     console.log("❌ Error to edit username:", error);
     res.send("Failed to edit username");
@@ -214,19 +226,24 @@ router.put("/edit-username", requireAuth, async (req, res) => {
 router.put("/edit-email", requireAuth, async (req, res) => {
   const userId = req.session.user._id;
   try {
-    if (!userId) {
-      return res.send("User not found");
-    }
-
     const email = req.body.email;
     console.log(email);
+
+    const userFound = await User.findOne({ email: email }).select(
+      "email",
+    );
+
+    if (userFound) {
+      return res.send("This email address is already in use.");
+    }
+    
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { email: email },
       {
         new: true,
       },
-    ).select("-password");
+    ).select("email");
 
     if (req.session.user.role === "admin") {
       return res.redirect("/auth/profile");
@@ -252,10 +269,6 @@ router.put("/reset-password", requireAuth, async (req, res) => {
   const currentPassword = req.body.currentPassword;
   const newPassword = req.body.newPassword;
   try {
-    if (!userId) {
-      return res.send("User not found");
-    }
-
     const user = await User.findById(userId);
     if (!user) {
       return res.send("User not found");
