@@ -33,20 +33,23 @@ userSchema.pre("save", async function (next) {
     this.username = this.username.toLowerCase();
   }
 
-  if (this.isModified("password")) {
+  if (this.password) {
     this.password = await bcrypt.hash(this.password, 10);
   }
 
   if (this.isModified("otpCode") && this.otpCode) {
     this.otpCode = await bcrypt.hash(this.otpCode, 10);
   }
-
 });
 
-userSchema.pre("findOneAndUpdate", function () {
+userSchema.pre("findOneAndUpdate", async function () {
   const update = this.getUpdate();
   if (update.username) {
     update.username = update.username.toLowerCase();
+  }
+
+  if (update.password) {
+    update.password = await bcrypt.hash(update.password, 10);
   }
 });
 

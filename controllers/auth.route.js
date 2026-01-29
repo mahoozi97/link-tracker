@@ -215,7 +215,7 @@ router.put("/edit-username", requireAuth, async (req, res) => {
       },
     ).select("username");
     console.log("✅ Username updated successfully:", updatedUser);
-    res.redirect("/auth/profile")
+    res.redirect("/auth/profile");
   } catch (error) {
     console.log("❌ Error to edit username:", error);
     res.send("Failed to edit username");
@@ -229,14 +229,12 @@ router.put("/edit-email", requireAuth, async (req, res) => {
     const email = req.body.email;
     console.log(email);
 
-    const userFound = await User.findOne({ email: email }).select(
-      "email",
-    );
+    const userFound = await User.findOne({ email: email }).select("email");
 
     if (userFound) {
       return res.send("This email address is already in use.");
     }
-    
+
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { email: email },
@@ -280,11 +278,9 @@ router.put("/reset-password", requireAuth, async (req, res) => {
       return res.send("Reset password failed. Please try again.");
     }
 
-    const password = await bcrypt.hash(newPassword, 10);
-
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { password: password },
+      { password: newPassword },
       { new: true },
     );
     console.log("✅ reset password successfully:");
@@ -335,11 +331,10 @@ router.put("/new-password", async (req, res) => {
   const { newPassword, userId } = req.body;
 
   try {
-    const password = await bcrypt.hash(newPassword, 10);
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       {
-        password: password,
+        password: newPassword,
       },
       { new: true },
     );
