@@ -50,7 +50,7 @@ body {
 .url-row a:hover {
   text-decoration: underline;
 }
-/* Stats Table Styles */
+
 .stats-table {
   width: 100%;
   border-collapse: collapse;

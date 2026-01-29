@@ -5,20 +5,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Edit</title>
-  <link rel="stylesheet" href="/link-edit.css">
+  <link rel="stylesheet" href="/main-style.css">
 </head>
 
 <body>
   <%- include('./partials/nav.ejs') %>
 
-    <div class="container">
-      <form action="/links/edit/<%=link.shortUrl%>?_method=PUT" method="post" class="form-group">
-        <label>
-          Main Url:
-          <input name="mainUrl" type="text" value="<%= link.mainUrl %>" placeholder="Paste your URL here..." required />
-        </label>
-        <button class="btn">Edit</button>
-      </form>
+    <div class="wrapper">
+      <div class="container login-form wide">
+        <h3>Edit Link</h3>
+        <form action="/links/edit/<%=link.shortUrl%>?_method=PUT" method="post">
+          <label>
+            Main Url:
+            <input name="mainUrl" type="text" value="<%= link.mainUrl %>" placeholder="Paste your URL here..."
+              required />
+          </label>
+          <button class="btn">Save</button>
+        </form>
+      </div>
     </div>
 </body>
 

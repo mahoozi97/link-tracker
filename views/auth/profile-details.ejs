@@ -4,50 +4,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin-Profile</title>
+  <title>Profile</title>
   <link rel="stylesheet" href="/main-style.css">
 </head>
 
 <body>
-  <%- include('../partials/admin-nav.ejs') %>
+  <%- include('../partials/nav.ejs') %>
 
     <br style="margin-top: 10px;">
 
     <div class="wrapper">
       <div class="container login-form wide">
-        <h3>Admin Profile</h3>
+        <h3>Profile</h3>
 
         <form action="/auth/edit-email?_method=PUT" method="post">
           <label>Email:
-            <input name="email" type="email" value="<%= email %>" placeholder="Enter your Email" required />
-          </label>
+            <input name="email" type="email" value="<%= email %>" placeholder="Enter your Email" required /></label>
           <button class="btn">Update Email</button>
         </form>
 
-        <hr style="margin: 25px 0; border: 0; border-top: 1px solid #eee;" />
+        <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;" />
 
         <form action="/auth/edit-username?_method=PUT" method="post">
           <label>Username:
-            <input name="username" type="text" value="<%= username %>" placeholder="Enter your username" required />
-          </label>
+            <input name="username" type="text" value="<%= username %>" placeholder="Enter your username"
+              required /></label>
           <button class="btn">Update Username</button>
         </form>
 
-        <hr style="margin: 25px 0; border: 0; border-top: 1px solid #eee;" />
+        <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;" />
 
         <form action="/auth/reset-password?_method=PUT" method="post">
           <label>Current Password:
-            <input name="currentPassword" type="password" placeholder="Enter your current password" required />
-          </label>
+            <input name="currentPassword" type="password" placeholder="Enter your current password" required /></label>
 
           <label>New Password:
-            <input name="newPassword" type="password" placeholder="Enter your new password" required />
-          </label>
+            <input name="newPassword" type="password" placeholder="Enter your new password" required /></label>
           <button class="btn">Reset Password</button>
         </form>
-
       </div>
     </div>
+
     <br style="margin-bottom: 10px;">
 </body>
 

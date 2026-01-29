@@ -9,7 +9,7 @@ const { requireAuth } = require("../middleware/authentication");
 const sendEmailVerification = require("../utils/mailer");
 
 router.get("/sign-up", (req, res) => {
-  res.render("sign-up.ejs");
+  res.render("auth/sign-up.ejs");
 });
 
 router.post("/sign-up", async (req, res) => {
@@ -47,7 +47,7 @@ router.post("/sign-up", async (req, res) => {
 
 router.get("/verification/:userId", (req, res) => {
   const userId = req.params.userId;
-  res.render("Verification.ejs", { userId });
+  res.render("auth/Verification.ejs", { userId });
 });
 
 router.post("/verify", async (req, res) => {
@@ -104,7 +104,7 @@ router.get("/send-again/:userId", async (req, res) => {
 });
 
 router.get("/login", (req, res) => {
-  res.render("sign-in.ejs");
+  res.render("auth/sign-in.ejs");
 });
 
 // ------- LOGIN
@@ -167,7 +167,7 @@ router.get("/profile", requireAuth, async (req, res) => {
           username: user.username,
           email: user.email,
         })
-      : res.render("profile-details.ejs", {
+      : res.render("auth/profile-details.ejs", {
           username: user.username,
           email: user.email,
         });
@@ -286,7 +286,7 @@ router.put("/reset-password", requireAuth, async (req, res) => {
 //  - - - - - - - - - - - - - FORGOT PASSWORD - - - - - - - - - - - - - -
 
 router.get("/forgot-password-verification", (req, res) => {
-  res.render("forgot-password.ejs");
+  res.render("auth/forgot-password.ejs");
 });
 
 // /auth/forgot-password-verification
@@ -314,7 +314,7 @@ router.post("/forgot-password-verification", async (req, res) => {
 });
 
 router.get("/new-password/:userId", async (req, res) => {
-  res.render("reset-password.ejs", { userId: req.params.userId });
+  res.render("auth/reset-password.ejs", { userId: req.params.userId });
 });
 
 // set a new password after forgot it.

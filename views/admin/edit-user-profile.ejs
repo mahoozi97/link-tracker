@@ -5,24 +5,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Edit-User-Profile</title>
-  <link rel="stylesheet" href="/admin-css/edit-user-profile.css">
+  <link rel="stylesheet" href="/main-style.css">
 </head>
 
 <body>
   <%- include('../partials/admin-nav.ejs') %>
 
-    <div class="container">
-      <h3>Profile of <%= user.username %>
-      </h3>
-      <form action="/admin/user/<%= user._id %>?_method=PUT" method="post">
-        <label>Username:
-          <input name="username" type="text" value="<%= user.username %>" placeholder="Enter your username"
-            required /></label>
+    <div class="wrapper">
+      <div class="container login-form">
+        <h3>Profile of <%= user.username %>
+        </h3>
 
-        <label>Role:
-          <input name="role" type="text" value="<%= user.role %>" placeholder="admin - user" required /></label>
-        <button>Update</button>
-      </form>
+        <form action="/admin/user/<%= user._id %>?_method=PUT" method="post">
+          <label>
+            Username:
+            <input name="username" type="text" value="<%= user.username %>" placeholder="Enter username" required />
+          </label>
+
+          <label>
+            Role:
+            <input name="role" type="text" value="<%= user.role %>" placeholder="admin - user" required />
+          </label>
+
+          <button type="submit">Update User</button>
+        </form>
+      </div>
     </div>
 </body>
 
