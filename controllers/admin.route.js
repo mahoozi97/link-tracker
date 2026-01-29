@@ -258,7 +258,7 @@ router.get("/dashboard/analytics/:linkId", async (req, res) => {
     );
     const dailyAverage = totalClicks / linkData.length;
     console.log(totalClicks, linkData.length, dailyAverage);
-    res.render("admin/details.ejs", {
+    res.render("admin/track-link.ejs", {
       linkData,
       shortUrl,
       mainUrl,

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Link Analytics</title>
+  <title>Track Link</title>
   <link rel="stylesheet" href="/link-details.css">
 </head>
 
@@ -17,7 +17,9 @@
 
         <div class="url-row">
           <strong>Created by</strong>
-          <strong><%=createdBy%></strong>
+          <strong>
+            <%=createdBy%>
+          </strong>
         </div>
 
         <div class="url-row">
@@ -31,9 +33,12 @@
           <a href="<%= mainUrl %>" target="_blank">
             <%= mainUrl %>
           </a>
+
+        </div>
+        <div style="display: flex; justify-content: flex-end;">
           <form class="action-right" action="/admin/<%=linkId%>?_method=DELETE" method="post">
             <input style="display: none;" name="redirectTo" type="text" value="analytics">
-            <a href=""><button class="btn">Delete</button></a>
+            <a href=""><button style="margin-left:650px;" class="btn">Delete</button></a>
           </form>
         </div>
       </div>
