@@ -91,11 +91,11 @@ Brief explanation of the main entities and relationships.
 
 ### Auth & Utilities
 ![bcrypt](https://img.shields.io/badge/Bcrypt-eeeeee?style=for-the-badge&logo=lock&logoColor=black)
-![Express Session](https://img.shields.io/badge/express--session-%23007ACC?style=for-the-badge&logo=session&logoColor=white)
-![dotenv](https://img.shields.io/badge/dotenv-000000?style=for-the-badge&logo=github&logoColor=green)
-![Nodemailer](https://img.shields.io/badge/Nodemailer-%23000000?style=for-the-badge&logo=maildotru&logoColor=white)
+![express-session](https://img.shields.io/badge/express--session-%23007ACC?style=for-the-badge&logo=session&logoColor=white)
+![dotenv](https://img.shields.io/badge/dotenv-%23000000?style=for-the-badge&logo=dotenv&logoColor=white)
+![nodemailer](https://img.shields.io/badge/Nodemailer-%23000000?style=for-the-badge&logo=maildotru&logoColor=white)
 ![method-override](https://img.shields.io/badge/Method--Override-FF6F61?style=for-the-badge&logo=overleaf&logoColor=white)
-![Helmet](https://img.shields.io/badge/helmet-%23007ACC?style=for-the-badge&logo=shieldsdotio&logoColor=white)
-![Morgan](https://img.shields.io/badge/morgan-%23000000?style=for-the-badge&logo=gnometerminal&logoColor=white)
-![Nanoid](https://img.shields.io/badge/Nanoid-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![Validator](https://img.shields.io/badge/validator-%231ABC9C?style=for-the-badge&logo=checkmarx&logoColor=white)
+![helmet](https://img.shields.io/badge/helmet-%23007ACC?style=for-the-badge&logo=shieldsdotio&logoColor=white)
+![morgan](https://img.shields.io/badge/morgan-%23000000?style=for-the-badge&logo=gnometerminal&logoColor=white)
+![nanoid](https://img.shields.io/badge/Nanoid-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![validator](https://img.shields.io/badge/validator-%231ABC9C?style=for-the-badge&logo=checkmarx&logoColor=white)
