@@ -4,13 +4,36 @@ Link Tracker is a **URL Shortener and Tracking application** that allows users t
 
 ---
 
+### 📸 Screenshots
+
+<details>
+  <summary>Click to expand gallery</summary>
+
+#### Authentication
+  <img src="https://i.imgur.com/AkuRsD0.png">
+  <img src="https://i.imgur.com/6bm2Kg5.png">
+
+  #### User Panel
+  <img src="https://i.imgur.com/0QrEDBJ.png">
+  <img src="https://i.imgur.com/un0a4zP.png">
+  <img src="https://i.imgur.com/6cZO8S1.png">
+  
+#### Admin Panel
+  <img src="https://i.imgur.com/TrYj1fx.png">
+  <img src="https://i.imgur.com/3w6hzkt.png">
+  <img src="https://i.imgur.com/S5Jh9gZ.png">
+  <img src="https://i.imgur.com/qxD0jgD.png"> 
+</details>
+
+---
+
 ## 🚀 Features
 
 ### Authentication & Authorization
 - User signup with OTP email verification
-- Login (Sign In)
+- Sign In
 - Password reset:
-  - Reset password (authenticated user, OTP not required)
+  - Reset password
   - Forgot password with OTP
 - Change email with OTP
 - Secure password storage using `bcrypt`
@@ -22,10 +45,10 @@ Link Tracker is a **URL Shortener and Tracking application** that allows users t
 ### User Dashboard
 - Create short links
 - View all created links with click counts
+- **Analytics:** Shows total clicks, daily clicks, and daily average clicks for each link.
 - Full CRUD operations for links
 - Profile management:
   - Change username
-- **Analytics:** Shows total clicks, daily clicks, and daily average clicks for each link.
 
 ---
 
@@ -35,7 +58,6 @@ Link Tracker is a **URL Shortener and Tracking application** that allows users t
   - Delete link
 - Manage users:
   - View all users
-  - Update usernames
   - Toggle user roles (**User / Admin**)
   - Delete users
 - **Analytics:**
@@ -53,15 +75,25 @@ Brief explanation of the main entities and relationships.
 ---
 
 ## 🧱 Tech Stack
+### Frontend
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![EJS](https://img.shields.io/badge/EJS-8D6CAB?style=for-the-badge&logo=javascript&logoColor=white)
 
-| Technology        | Description                 |
-|-------------------|-----------------------------|
-| Node.js           | JavaScript runtime          |
-| Express.js        | Web application framework   |
-| MongoDB           | NoSQL database              |
-| Mongoose          | MongoDB ODM                 |
-| EJS               | Templating engine           |
-| Express-Session   | Session management          |
+### Backend
+![Node.js](https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express%20js-000000?style=for-the-badge&logo=express&logoColor=white)
+
+### Database
+![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=white)
+
+### Auth & Utilities
+![bcrypt](https://img.shields.io/badge/Bcrypt-eeeeee?style=for-the-badge&logo=lock&logoColor=black)
+![Express Session](https://img.shields.io/badge/Session-007ACC?style=for-the-badge&logo=session&logoColor=white)
+![dotenv](https://img.shields.io/badge/dotenv-000000?style=for-the-badge&logo=github&logoColor=green)
+![method-override](https://img.shields.io/badge/Method--Override-FF6F61?style=for-the-badge&logo=overleaf&logoColor=white)
 
 ---
 
