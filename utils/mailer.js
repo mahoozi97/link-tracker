@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendEmailVerification = (to, otp) => {
+const sendEmailVerification = async (to, otp) => {
   const mailOptions = {
     from: process.env.EMAIL,
     to: to,
@@ -20,7 +20,7 @@ const sendEmailVerification = (to, otp) => {
         Your verification code: ${otp}`,
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
+  await transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error("Failed to send email:", error);
     } else {
