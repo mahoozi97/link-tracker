@@ -4,6 +4,11 @@ Link Tracker is a **URL Shortener and Tracking application** that allows users t
 
 ---
 
+## Live Demo
+[Deployed Website](https://link-tracker-rzup.onrender.com)
+
+---
+
 ### 📸 Screenshots
 
 <details>

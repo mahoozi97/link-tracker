@@ -8,7 +8,7 @@ require("dotenv").config();
 const PORT = process.env.PORT;
 const MONGODB_URL = process.env.MONGODB_URL;
 const SESSION_SECRET = process.env.SESSION_SECRET;
-const { requireAuth, adminAuth } = require("./middleware/authentication");
+const { requireAdminAuth, adminAuth } = require("./middleware/authentication");
 const authRoutes = require("./controllers/auth.route");
 const linkRoutes = require("./controllers/link.route");
 const adminRoutes = require("./controllers/admin.route");
@@ -52,9 +52,8 @@ app.use("/auth", authRoutes);
 
 app.use("/links", linkRoutes);
 
-app.use("/admin", requireAuth, adminAuth, adminRoutes);
+app.use("/admin", requireAdminAuth, adminRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT} 🔥`);
 });
-

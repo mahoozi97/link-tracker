@@ -6,11 +6,11 @@ const requireAuth = (req, res, next) => {
   next();
 };
 
-const adminAuth = (req, res, next) => {
-  if (req.session.user.role !== "admin") {
+const requireAdminAuth = (req, res, next) => {
+  if (!req.session.user || req.session.user.role !== "admin") {
     return res.redirect("/auth/login");
   }
   next();
 };
 
-module.exports =  { requireAuth, adminAuth };
+module.exports =  { requireAuth, requireAdminAuth };
