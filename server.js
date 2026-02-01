@@ -8,10 +8,11 @@ require("dotenv").config();
 const PORT = process.env.PORT;
 const MONGODB_URL = process.env.MONGODB_URL;
 const SESSION_SECRET = process.env.SESSION_SECRET;
-const { requireAdminAuth, adminAuth } = require("./middleware/authentication");
+const { requireAuth, requireAdminAuth } = require("./middleware/authentication");
 const authRoutes = require("./controllers/auth.route");
 const linkRoutes = require("./controllers/link.route");
 const adminRoutes = require("./controllers/admin.route");
+const publicRoutes = require("./controllers/public.route");
 const app = express();
 
 // Use Helmet to set secure HTTP headers
@@ -44,15 +45,13 @@ const connectToDB = async () => {
 };
 connectToDB();
 
-app.get("/", (req, res) => {
-  res.render("home-page.ejs");
-});
-
 app.use("/auth", authRoutes);
 
-app.use("/links", linkRoutes);
+app.use("/links", requireAuth, linkRoutes);
 
 app.use("/admin", requireAdminAuth, adminRoutes);
+
+app.use("/", publicRoutes)
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT} 🔥`);

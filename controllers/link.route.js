@@ -2,16 +2,13 @@ const router = require("express").Router();
 const validator = require("validator");
 const Link = require("../models/link-model");
 const Analytics = require("../models/analytic-model");
-const { requireAuth } = require("../middleware/authentication");
 
 const { customAlphabet } = require("nanoid");
 const alphabet =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 const nanoidShort = customAlphabet(alphabet, 8);
 
-const todayDate = require("../utils/today-date");
-
-router.get("/", requireAuth, async (req, res) => {
+router.get("/", async (req, res) => {
   const userId = req.session.user._id;
   try {
     console.log("user id :", userId);
@@ -27,7 +24,7 @@ router.get("/", requireAuth, async (req, res) => {
   }
 });
 
-router.post("/create", requireAuth, async (req, res) => {
+router.post("/create", async (req, res) => {
   const userId = req.session.user;
   console.log(userId._id);
   try {
@@ -68,36 +65,8 @@ router.post("/create", requireAuth, async (req, res) => {
   }
 });
 
-//✅ Done // Redirect to main URL & update click count (shared url).
-router.get("/:shorturl", async (req, res) => {
-  try {
-    const shortUrl = req.params.shorturl;
-    if (!shortUrl) {
-      return res.send("Link not found or invalid");
-    }
-    const url = await Link.findOne({ shortUrl: shortUrl });
-    url.clicks++;
-    await url.save();
-    console.log(shortUrl, url);
-
-    //  - - ANALYTICS - -
-    const today = todayDate();
-    const filter = { linkId: url._id, clickDate: today };
-    const ClicksCount = { $inc: { clicksCount: 1 } };
-    let doc = await Analytics.findOneAndUpdate(filter, ClicksCount, {
-      new: true,
-      upsert: true, // create the day's record if it doesn't exist
-    });
-
-    res.redirect(url.mainUrl);
-  } catch (error) {
-    console.log("❌ Error to redirect to the main URL:", error);
-    res.send("Failed to redirect to the main URL");
-  }
-});
-
 // render edit link page
-router.get("/edit/:shortUrl", requireAuth, async (req, res) => {
+router.get("/edit/:shortUrl", async (req, res) => {
   try {
     const { shortUrl } = req.params;
     console.log(shortUrl);
@@ -113,7 +82,7 @@ router.get("/edit/:shortUrl", requireAuth, async (req, res) => {
 });
 
 // edit link details
-router.put("/edit/:shortUrl", requireAuth, async (req, res) => {
+router.put("/edit/:shortUrl", async (req, res) => {
   try {
     const { shortUrl } = req.params;
 
@@ -147,7 +116,7 @@ router.put("/edit/:shortUrl", requireAuth, async (req, res) => {
   }
 });
 
-router.delete("/:id", requireAuth, async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const id = req.params.id;
     if (!id) {
@@ -164,7 +133,7 @@ router.delete("/:id", requireAuth, async (req, res) => {
 });
 
 // Fetch Analytics data
-router.get("/:linkId/details", requireAuth, async (req, res) => {
+router.get("/:linkId/details", async (req, res) => {
   const linkId = req.params.linkId;
   try {
     const linkData = await Analytics.find({ linkId: linkId })
