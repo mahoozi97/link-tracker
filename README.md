@@ -10,23 +10,23 @@ Link Tracker is a **URL Shortener and Tracking application** that allows users t
 
 ---
 
-### 📸 Screenshots
+## 📸 Screenshots
 
 <details>
   <summary>Click to expand gallery</summary>
 
-#### Authentication
+### Authentication
 
   <img src="https://i.imgur.com/AkuRsD0.png">
   <img src="https://i.imgur.com/6bm2Kg5.png">
 
-#### User Panel
+### User Panel
 
   <img src="https://i.imgur.com/0QrEDBJ.png">
   <img src="https://i.imgur.com/un0a4zP.png">
   <img src="https://i.imgur.com/6cZO8S1.png">
   
-#### Admin Panel
+### Admin Panel
   <img src="https://i.imgur.com/TrYj1fx.png">
   <img src="https://i.imgur.com/3w6hzkt.png">
   <img src="https://i.imgur.com/S5Jh9gZ.png">
