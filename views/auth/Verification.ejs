@@ -18,6 +18,10 @@
     We’ve sent a 4-digit verification code to your email. Please enter it
     below to verify your email address.
   </p>
+
+  <p class="otp-message" style="color: red;">
+    For testing purposes, use the code 0000 if you don't receive an email.
+  </p>
   <% if (typeof error !=='undefined' && error) { %>
     <p class="otp-message" style="color: red;">
       <%= error %>

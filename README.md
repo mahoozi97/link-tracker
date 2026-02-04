@@ -8,6 +8,14 @@ Link Tracker is a **URL Shortener and Tracking application** that allows users t
 
 [Deployed Website](https://link-tracker-rzup.onrender.com)
 
+#### ⚠️ Email Verification (Render Demo)
+
+Email delivery using Nodemailer is disabled on Render due to SMTP restrictions.
+
+👉 Bypass Code: 0000
+
+📌 Note: Full email functionality is active in local development.
+
 ---
 
 ## 📸 Screenshots
@@ -35,45 +43,24 @@ Link Tracker is a **URL Shortener and Tracking application** that allows users t
 
 ---
 
-## 🚀 Features
+## 🚀 Key Features
 
-### Authentication & Authorization
+### 🔐 Secure Authentication & Identity Management
+* OTP-Verified Onboarding: Multi-step registration flow using Nodemailer
+* State Persistence: Managed user sessions and security context via `express-session` .
+* Robust Password Recovery: Integrated "Forgot Password" and "Change Email" workflows backed by OTP validation.
+* RBAC (Role-Based Access Control): Granular authorization logic separating standard **User** capabilities from **Admin** privileges.
 
-- User signup with OTP email verification
-- Sign In
-- Password reset:
-  - Reset password
-  - Forgot password with OTP
-- Change email with OTP
-- Secure password storage using `bcrypt`
-- Session-based authentication with `express-session`
-- Role-based access control: **User / Admin**
+### 📈 Dynamic User Dashboard
+* URL Lifecycle Management: Full CRUD operations for generating and managing shortened links.
+* Real-time Engagement Tracking: Automatic click-event logging for every shortened URL.
+* Advanced Analytics: Interactive metrics displaying total engagement, daily click-through rates (CTR), and performance averages.
+* Account Customization: Self-service profile management and credential updates.
 
----
-
-### User Dashboard
-
-- Create short links
-- View all created links with click counts
-- **Analytics:** Shows total clicks, daily clicks, and daily average clicks for each link.
-- Full CRUD operations for links
-- Profile management:
-  - Change username
-
----
-
-### Admin Dashboard
-
-- Manage all links:
-  - View all links
-  - Delete link
-- Manage users:
-  - View all users
-  - Toggle user roles (**User / Admin**)
-  - Delete users
-- **Analytics:**
-  - View link data with total clicks count and daily averages
-  - Aggregated for the **last 30 days**
+### 🛠️ Administrative Control Center (Back-office)
+* Centralized Resource Management: Global oversight of all system-wide links with the ability to moderate or remove content.
+* User Governance: Comprehensive directory to monitor user activity, delete accounts, or elevate privileges (Toggle User/Admin).
+* 30-Day Data Aggregation: High-level analytics summarizing system performance and traffic trends over the last 30 days.
 
 ---
 

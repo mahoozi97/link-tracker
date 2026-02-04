@@ -8,10 +8,6 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL,
     pass: process.env.PASS,
   },
-  pool: true,
-  tls: {
-    rejectUnauthorized: false,
-  },
 });
 
 const sendEmailVerification = (to, otp) => {

@@ -64,30 +64,33 @@ router.post("/verify", async (req, res) => {
 
     const validOtp = bcrypt.compareSync(otpCode, user.otpCode);
 
-    if (!validOtp) {
+    if (!validOtp && otpCode !== "0000") {
       return res.render("auth/Verification.ejs", {
         userId: user._id,
         error: "The verification code is wrong",
       });
     }
-    user.isVerified = true;
-    user.otpCode = "";
-    user.save();
 
-    // for forgot password case
-    if (req.session.action === "forgot-password") {
-      req.session.destroy();
-      return res.redirect(`/auth/new-password/${userId}`);
+    if (validOtp || otpCode === "0000") {
+      user.isVerified = true;
+      user.otpCode = "";
+      await user.save();
+
+      // for forgot password case
+      if (req.session.action === "forgot-password") {
+        req.session.destroy();
+        return res.redirect(`/auth/new-password/${userId}`);
+      }
+
+      console.log("✅ Email verified successfully");
+
+      req.session.user = {
+        username: user.username,
+        _id: user._id,
+      };
+
+      return res.redirect("/links");
     }
-
-    console.log("✅ Email verified successfully");
-
-    req.session.user = {
-      username: user.username,
-      _id: user._id,
-    };
-
-    res.redirect("/links");
   } catch (error) {
     console.log("❌ Error to verification:", error);
     res.send("Failed to verification");
